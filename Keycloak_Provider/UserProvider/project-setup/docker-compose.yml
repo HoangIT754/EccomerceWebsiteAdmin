@@ -1,0 +1,56 @@
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.0.0
+    environment:
+      DB_VENDOR: postgres
+      DB_ADDR: keycloak-db
+      DB_DATABASE: keycloak
+      DB_USER: keycloak
+      DB_PASSWORD: password
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+      PROXY_ADDRESS_FORWARDING: true
+      JAVA_OPTS_APPEND: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
+    ports:
+      - "9091:8080"
+      - "5005:5005"
+    volumes:
+      - ./keycloak-providers:/opt/keycloak/providers
+    entrypoint: ["/opt/keycloak/bin/kc.sh", "start-dev"]
+    depends_on:
+      - keycloak-db
+    networks:
+      - my-network
+
+  keycloak-db:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5434:5432"
+    volumes:
+      - keycloak_db_data:/var/lib/postgresql/data
+    networks:
+      - my-network
+
+  application-db:
+    image: postgres:17
+    container_name: application-db
+    environment:
+      POSTGRES_DB: application
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+    ports:
+      - "5435:5432"
+    volumes:
+      - application_db_data:/var/lib/postgresql/data
+    networks:
+      - my-network
+
+volumes:
+  keycloak_db_data:
+  application_db_data:
+networks:
+  my-network:

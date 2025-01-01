@@ -1,0 +1,9 @@
+{
+    "realm": "Ecommerce_Website",
+    "auth-server-url": "http://localhost:9091/auth",
+    "ssl-required": "external",
+    "resource": "ecommerce",
+    "public-client": true,
+    "confidential-port": 0
+  }
+  

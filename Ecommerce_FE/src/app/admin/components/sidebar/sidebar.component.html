@@ -1,0 +1,21 @@
+<div class="bg-gray-900 text-white w-64 h-full fixed left-0">
+  <ul class="mt-32">
+    <li *ngFor="let item of sidebarItems">
+      <a
+        [routerLink]="item.link"
+        [ngClass]="{
+          'bg-gray-700 border-l-4 border-gray-400 ml-3 mr-3': isActive(
+            item.link
+          ),
+          'hover:bg-gray-700 border-l-4 border-transparent': !isActive(
+            item.link
+          )
+        }"
+        class="flex gap-2 items-center px-4 py-3 rounded-lg text-base font-semibold transition-all duration-200"
+      >
+        <i [class]="item.icon"></i>
+        <span>{{ item.label }}</span>
+      </a>
+    </li>
+  </ul>
+</div>

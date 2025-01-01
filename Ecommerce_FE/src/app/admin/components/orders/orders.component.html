@@ -1,0 +1,92 @@
+<!-- src/app/admin/components/orders/orders.component.html -->
+<div class="p-4">
+  <h2 class="text-2xl font-semibold mb-4">Order List</h2>
+
+  <table class="min-w-full bg-white border border-gray-300">
+    <thead>
+      <tr class="w-full bg-gray-100 border-b">
+        <th class="text-left py-3 px-4 font-semibold text-gray-700">
+          Order ID
+        </th>
+        <th class="text-left py-3 px-4 font-semibold text-gray-700">User</th>
+        <th class="text-left py-3 px-4 font-semibold text-gray-700">
+          Order Date
+        </th>
+        <th class="text-left py-3 px-4 font-semibold text-gray-700">Status</th>
+        <th class="text-left py-3 px-4 font-semibold text-gray-700">
+          Total Amount
+        </th>
+        <th class="text-left py-3 px-4 font-semibold text-gray-700">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let order of orders" class="border-b hover:bg-gray-50">
+        <td class="py-3 px-4">{{ order.orderId }}</td>
+        <td class="py-3 px-4">{{ order.user.username }}</td>
+        <td class="py-3 px-4">
+          {{ order.orderDate | date : "dd-MMM-yyyy hh:mm a" }}
+        </td>
+        <td class="py-3 px-4">{{ order.status }}</td>
+        <td class="py-3 px-4">${{ order.totalAmount }}</td>
+        <td class="py-3 px-4">
+          <button
+            (click)="openOrderDetails(order.orderId)"
+            class="text-blue-600 hover:underline"
+          >
+            <i class="fa-solid fa-pen-to-square"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Modal Popup for Order Details -->
+  <div
+    *ngIf="isModalOpen"
+    class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+  >
+    <div class="bg-white p-6 rounded-lg shadow-lg w-1/2 max-w-lg relative">
+      <button
+        (click)="closeModal()"
+        class="absolute top-2 right-2 text-gray-500 hover:text-gray-800"
+      >
+        &times;
+      </button>
+      <h3 class="text-xl font-semibold mb-4">Order Details</h3>
+
+      <p><strong>Order ID:</strong> {{ selectedOrder?.orderId }}</p>
+      <p><strong>User:</strong> {{ selectedOrder?.user.username }}</p>
+      <p><strong>Order Date:</strong> {{ selectedOrder?.orderDate }}</p>
+      <p><strong>Status:</strong> {{ selectedOrder?.status }}</p>
+      <p><strong>Total Amount:</strong> ${{ selectedOrder?.totalAmount }}</p>
+
+      <h4 class="text-lg font-semibold mt-4">Products</h4>
+      <ul>
+        <li *ngFor="let product of selectedOrder?.orderProducts">
+          {{ product.product.name }} - Quantity: {{ product.quantity }} - Price:
+          {{ product.price }}
+        </li>
+      </ul>
+
+      <div class="mt-4">
+        <label for="status" class="block mb-2">Update Status</label>
+        <select
+          [(ngModel)]="selectedOrder.status"
+          class="w-full p-2 border border-gray-300 rounded"
+        >
+          <option value="1">Pending</option>
+          <option value="2">Shipped</option>
+          <option value="3">Delivered</option>
+          <option value="4">Canceled</option>
+        </select>
+      </div>
+
+      <button
+        (click)="updateOrder(selectedOrder.status)"
+        class="bg-green-500 text-white px-4 py-2 rounded mt-4"
+      >
+        Update Status
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,23 @@
+<nav
+  class="bg-gray-800 text-white px-4 py-2 flex justify-between items-center fixed w-full z-10 top-0"
+>
+  <div class="flex items-center">
+    <span class="text-lg font-semibold">Admin Panel</span>
+  </div>
+
+  <div class="flex items-center space-x-4">
+    <span class="text-sm">Username</span>
+    <img
+      src="https://imgcdn.stablediffusionweb.com/2024/2/22/2479ff43-bc13-4e20-9757-331361bdc304.jpg"
+      alt="Avatar"
+      class="h-8 w-8 rounded-full border border-gray-600"
+    />
+    <a
+      href="javascript:void(0)"
+      class="flex items-center space-x-2 text-red-600 hover:text-red-400"
+      (click)="logout()"
+    >
+      <i class="fas fa-sign-out-alt"></i>
+    </a>
+  </div>
+</nav>

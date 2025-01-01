@@ -1,0 +1,139 @@
+<div class="p-4">
+  <h2 class="text-2xl font-semibold mb-4">Product List</h2>
+  <button
+    (click)="openAddProduct()"
+    class="bg-blue-500 text-white px-4 py-2 rounded mb-4"
+  >
+    Add Product
+  </button>
+
+  <table class="min-w-full bg-white border border-gray-300">
+    <thead>
+      <tr class="w-full bg-gray-100 border-b">
+        <th class="text-left py-3 px-4 font-semibold text-gray-700">ID</th>
+        <th class="text-left py-3 px-4 font-semibold text-gray-700">Name</th>
+        <th class="text-left py-3 px-4 font-semibold text-gray-700">Price</th>
+        <th class="text-left py-3 px-4 font-semibold text-gray-700">Stock</th>
+        <th class="text-left py-3 px-4 font-semibold text-gray-700">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let product of products" class="border-b hover:bg-gray-50">
+        <td class="py-3 px-4">{{ product.productId }}</td>
+        <td class="py-3 px-4">{{ product.name }}</td>
+        <td class="py-3 px-4">{{ product.price | currency }}</td>
+        <td class="py-3 px-4">{{ product.stock }}</td>
+        <td class="py-3 px-4">
+          <button
+            (click)="openProductDetails(product.productId)"
+            class="text-blue-600 hover:underline"
+          >
+            <i class="fa-solid fa-pen-to-square"></i>
+          </button>
+          <button
+            (click)="deleteProduct(product.productId)"
+            class="text-red-600 hover:underline ml-2"
+          >
+            <i class="fa-solid fa-trash-can"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div
+    *ngIf="isModalOpen"
+    class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+  >
+    <div class="bg-white p-6 rounded-lg shadow-lg w-1/2 max-w-lg relative">
+      <button
+        (click)="closeModal()"
+        class="absolute top-2 right-2 text-gray-500 hover:text-gray-800"
+      >
+        &times;
+      </button>
+      <h3 class="text-xl font-semibold mb-4">
+        {{ isEditMode ? "Add New Product" : "Edit Product" }}
+      </h3>
+
+      <label class="block mb-2">Name</label>
+      <input
+        [(ngModel)]="selectedProduct.name"
+        type="text"
+        class="w-full p-2 border border-gray-300 rounded mb-4"
+      />
+
+      <label class="block mb-2">Price</label>
+      <input
+        [(ngModel)]="selectedProduct.price"
+        type="number"
+        class="w-full p-2 border border-gray-300 rounded mb-4"
+      />
+
+      <label class="block mb-2">Stock</label>
+      <input
+        [(ngModel)]="selectedProduct.stock"
+        type="number"
+        class="w-full p-2 border border-gray-300 rounded mb-4"
+      />
+
+      <label class="block mb-2">Brand</label>
+      <select
+        [(ngModel)]="selectedProduct.brand"
+        class="w-full p-2 border border-gray-300 rounded mb-4"
+      >
+        <option *ngFor="let brand of brands" [value]="brand.brand_id">
+          {{ brand.name }}
+        </option>
+      </select>
+
+      <label class="block mb-2">Category</label>
+      <select
+        [(ngModel)]="selectedProduct.category_id"
+        (change)="onCategoryChange($event)"
+        class="w-full p-2 border border-gray-300 rounded mb-4"
+      >
+        <option
+          *ngFor="let category of categories"
+          [value]="category.category_id"
+        >
+          {{ category.name }}
+        </option>
+      </select>
+
+      <label class="block mb-2">Subcategories</label>
+      <select
+        [(ngModel)]="selectedProduct.subCategories"
+        multiple
+        class="w-full p-2 border border-gray-300 rounded mb-4"
+      >
+        <option
+          *ngFor="let subCategory of subCategories"
+          [value]="subCategory.sub_category_id"
+        >
+          {{ subCategory.name }}
+        </option>
+      </select>
+
+      <label class="block mb-2">Description</label>
+      <textarea
+        [(ngModel)]="selectedProduct.description"
+        class="w-full p-2 border border-gray-300 rounded mb-4"
+      ></textarea>
+
+      <label class="block mb-2">Image URL</label>
+      <input
+        [(ngModel)]="selectedProduct.imgURL"
+        type="text"
+        class="w-full p-2 border border-gray-300 rounded mb-4"
+      />
+
+      <button
+        (click)="saveProduct()"
+        class="bg-green-500 text-white px-4 py-2 rounded"
+      >
+        Save
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,50 @@
+<div class="p-4">
+  <h2 class="text-2xl font-semibold mb-4">Review List</h2>
+  <button
+    (click)="openAddReview()"
+    class="bg-blue-500 text-white px-4 py-2 rounded mb-4"
+  >
+    Add Review
+  </button>
+  <table class="min-w-full bg-white border border-gray-300">
+    <thead>
+      <tr class="w-full bg-gray-100 border-b">
+        <th class="text-left py-3 px-4 font-semibold text-gray-700">ID</th>
+        <th class="text-left py-3 px-4 font-semibold text-gray-700">
+          Product Name
+        </th>
+        <th class="text-left py-3 px-4 font-semibold text-gray-700">Comment</th>
+        <th class="text-left py-3 px-4 font-semibold text-gray-700">Rating</th>
+        <th class="text-left py-3 px-4 font-semibold text-gray-700">
+          Created At
+        </th>
+        <th class="text-left py-3 px-4 font-semibold text-gray-700">
+          Updated At
+        </th>
+        <th class="text-left py-3 px-4 font-semibold text-gray-700">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let review of reviews" class="border-b hover:bg-gray-50">
+        <td class="py-3 px-4">{{ review.review_id }}</td>
+        <td class="py-3 px-4">{{ review.product.name }}</td>
+        <td class="py-3 px-4">{{ review.comment }}</td>
+        <td class="py-3 px-4">{{ review.rating }}</td>
+        <td class="py-3 px-4">
+          {{ review.created_at | date : "dd-MMM-yyyy hh:mm a" }}
+        </td>
+        <td class="py-3 px-4">
+          {{ review.updated_at | date : "dd-MMM-yyyy hh:mm a" }}
+        </td>
+        <td class="py-3 px-4">
+          <button
+            (click)="deleteReview(review.review_id)"
+            class="text-red-600 hover:underline ml-2"
+          >
+            <i class="fa-solid fa-trash-can"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

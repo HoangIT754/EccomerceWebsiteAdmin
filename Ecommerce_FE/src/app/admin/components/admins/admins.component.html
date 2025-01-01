@@ -1,0 +1,44 @@
+<!-- user-profile.component.html -->
+<div class="p-6 max-w-4xl mx-auto bg-white rounded-xl shadow-md space-y-4">
+  <div *ngIf="loading" class="text-center">
+    <p class="text-gray-500">Loading...</p>
+  </div>
+
+  <div *ngIf="error" class="text-center text-red-500">
+    <p>{{ error }}</p>
+  </div>
+
+  <div *ngIf="userProfile && !loading">
+    <h2 class="text-2xl font-bold text-gray-800">Your Profile</h2>
+    <div class="mt-4">
+      <p>
+        <span class="font-semibold text-gray-600">Username:</span>
+        {{ userProfile.username }}
+      </p>
+      <p>
+        <span class="font-semibold text-gray-600">Email:</span>
+        {{ userProfile.email }}
+      </p>
+      <p>
+        <span class="font-semibold text-gray-600">Phone:</span>
+        {{ userProfile.phone || "N/A" }}
+      </p>
+      <p>
+        <span class="font-semibold text-gray-600">Address:</span>
+        {{ userProfile.address || "N/A" }}
+      </p>
+      <p>
+        <span class="font-semibold text-gray-600">City:</span>
+        {{ userProfile.city || "N/A" }}
+      </p>
+      <p>
+        <span class="font-semibold text-gray-600">District:</span>
+        {{ userProfile.district || "N/A" }}
+      </p>
+      <p>
+        <span class="font-semibold text-gray-600">Registered At:</span>
+        {{ userProfile.registerAt | date : "medium" }}
+      </p>
+    </div>
+  </div>
+</div>

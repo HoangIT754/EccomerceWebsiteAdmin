@@ -1,0 +1,122 @@
+<!-- src/app/admin/components/brand-list/brand-list.component.html -->
+<div class="p-4">
+  <h2 class="text-2xl font-semibold mb-4">Brand List</h2>
+  <div class="flex items-center justify-between mb-4">
+    <button
+      (click)="openAddBrand()"
+      class="bg-blue-500 text-white px-4 py-2 rounded mb-4"
+    >
+      Add Brand
+    </button>
+
+    <div class="mb-4">
+      <button
+        (click)="exportReport('xlsx')"
+        class="bg-green-400 text-white px-4 py-2 rounded mr-2"
+      >
+        Export XLSX
+      </button>
+      <button
+        (click)="exportReport('docx')"
+        class="bg-blue-400 text-white px-4 py-2 rounded mr-2"
+      >
+        Export DOCX
+      </button>
+      <button
+        (click)="exportReport('pdf')"
+        class="bg-orange-400 text-white px-4 py-2 rounded"
+      >
+        Export PDF
+      </button>
+    </div>
+    <div class="flex items-center">
+      <input type="file" (change)="onFileSelect($event)" class="mb-4" />
+      <button
+        (click)="importFile()"
+        class="bg-purple-500 text-white px-4 py-2 rounded mb-4"
+      >
+        Import Brands
+      </button>
+    </div>
+  </div>
+
+  <table class="min-w-full bg-white border border-gray-300">
+    <thead>
+      <tr class="w-full bg-gray-100 border-b">
+        <th class="text-left py-3 px-4 font-semibold text-gray-700">ID</th>
+        <th class="text-left py-3 px-4 font-semibold text-gray-700">Name</th>
+        <th class="text-left py-3 px-4 font-semibold text-gray-700">
+          Create at
+        </th>
+        <th class="text-left py-3 px-4 font-semibold text-gray-700">
+          Update at
+        </th>
+        <th class="text-left py-3 px-4 font-semibold text-gray-700">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let brand of brands" class="border-b hover:bg-gray-50">
+        <td class="py-3 px-4">{{ brand.brand_id }}</td>
+        <td class="py-3 px-4">{{ brand.name }}</td>
+        <td class="py-3 px-4">
+          {{ brand.created_at | date : "dd-MMM-yyyy hh:mm a" }}
+        </td>
+        <td class="py-3 px-4">
+          {{ brand.updated_at | date : "dd-MMM-yyyy hh:mm a" }}
+        </td>
+        <td class="py-3 px-4">
+          <button
+            (click)="openBrandDetails(brand.brand_id)"
+            class="text-blue-600 hover:underline"
+          >
+            <i class="fa-solid fa-pen-to-square"></i>
+          </button>
+          <button
+            (click)="deleteBrand(brand.brand_id)"
+            class="text-red-600 hover:underline ml-2"
+          >
+            <i class="fa-solid fa-trash-can"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Modal Popup for Add/Edit Brand -->
+  <div
+    *ngIf="isModalOpen"
+    class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+  >
+    <div class="bg-white p-6 rounded-lg shadow-lg w-1/2 max-w-lg relative">
+      <button
+        (click)="closeModal()"
+        class="absolute top-2 right-2 text-gray-500 hover:text-gray-800"
+      >
+        &times;
+      </button>
+      <h3 class="text-xl font-semibold mb-4">
+        {{ isEditMode ? "Add New Brand" : "Edit Brand" }}
+      </h3>
+
+      <label class="block mb-2">Name</label>
+      <input
+        [(ngModel)]="selectedBrand.name"
+        type="text"
+        class="w-full p-2 border border-gray-300 rounded mb-4"
+      />
+
+      <label class="block mb-2">Description</label>
+      <textarea
+        [(ngModel)]="selectedBrand.description"
+        class="w-full p-2 border border-gray-300 rounded mb-4"
+      ></textarea>
+
+      <button
+        (click)="saveBrand()"
+        class="bg-green-500 text-white px-4 py-2 rounded"
+      >
+        {{ isEditMode ? "Add" : "Save" }}
+      </button>
+    </div>
+  </div>
+</div>
